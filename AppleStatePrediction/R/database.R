@@ -1,7 +1,5 @@
 # R/database.R
 
-setwd("C:/Users/184826/PhenoFlex/PhenoFlex/AppleStatePrediction")
-
 
 library(DBI)
 library(RSQLite)
