@@ -1,0 +1,351 @@
+/* ============================================================
+   GENERAL PAGE
+   ============================================================ */
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.bslib-page-fill {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 15px 25px;
+  gap: 15px;
+}
+
+.app-title {
+  font-size: clamp(18px, 3.5vw, 32px);
+
+  /* Allow the title to shrink/wrap */
+  min-width: 0;
+  flex: 1 1 auto;
+
+  line-height: 1.1;
+}
+
+.header-actions {
+  flex: 0 0 auto;
+}
+
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+
+.app-content {
+  flex: 1 1 auto;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  min-height: 0;
+
+  width: 100%;
+}
+
+
+/* ============================================================
+   LEFT / RIGHT PANELS
+   ============================================================ */
+
+.left-panel,
+.right-panel {
+  min-width: 0;
+  min-height: 0;
+
+  padding: 10px 20px 20px 20px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.left-panel {
+  border-right: 1px solid #dee2e6;
+}
+
+
+/* ============================================================
+   DATE + NAVIGATION CONTROLS
+   ============================================================ */
+
+.date-controls {
+  width: 90%;
+
+  display: flex;
+  align-items: flex-end;
+
+  gap: 12px;
+
+  flex: 0 0 auto;
+}
+
+.date-input-container {
+  flex: 1;
+}
+
+.date-input-container .form-group {
+  margin-bottom: 0;
+}
+
+.icon-buttons {
+  display: flex;
+  gap: 6px;
+
+  padding-bottom: 0;
+}
+
+.icon-buttons .btn {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* ============================================================
+   TABLE AREA
+   ============================================================ */
+
+.table-container {
+  width: 90%;
+
+  flex: 1 1 auto;
+
+  min-height: 0;
+
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.table-container h4 {
+  flex: 0 0 auto;
+}
+
+.table-placeholder {
+  flex: 1 1 auto;
+
+  min-height: 300px;
+}
+
+
+/* ============================================================
+   CHART AREA
+   ============================================================ */
+
+.chart-container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.chart-container h4 {
+  flex: 0 0 auto;
+}
+
+.chart-box {
+  width: 100%;
+  height: 450px;
+  box-sizing: border-box;
+}
+
+
+/* ============================================================
+   PLACEHOLDERS
+   ============================================================ */
+
+.placeholder-box {
+  width: 100%;
+
+  border: 2px dashed #adb5bd;
+  border-radius: 6px;
+
+  background-color: #f8f9fa;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-content {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  color: #6c757d;
+}
+
+.placeholder-content i {
+  color: #adb5bd;
+}
+
+
+/* ============================================================
+   SLIDER
+   ============================================================ */
+/* Slider stays below the diagram */
+.slider-container {
+  width: 90%;
+  margin: 60px auto 0 auto;
+}
+
+
+/* ============================================================
+   DATE RANGE
+   ============================================================ */
+
+.date-range-container {
+  width: 90%;
+
+  flex: 0 0 auto;
+
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 10px;
+  padding-bottom: 10px;
+}
+
+.range-date {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.range-date-label {
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   ONE-COLUMN LAYOUT
+   ============================================================ */
+
+@media (max-width: 1100px) {
+
+  .app-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 15px;
+    gap: 40px;
+    box-sizing: border-box;
+  }
+
+  .left-panel,
+  .right-panel {
+    width: 100%;
+    flex: none;
+    border-left: none;
+    border-right: none;
+    box-sizing: border-box;
+  }
+
+  /* Make the contents of both halves use the same width */
+  .date-controls,
+  .table-container,
+  .chart-container,
+  .slider-container,
+  .date-range-container {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+  }
+
+  /* Diagram keeps its own space */
+  .chart-box {
+    width: 100%;
+    height: 400px;
+    box-sizing: border-box;
+  }
+
+  .slider-container {
+    margin-top: 50px;
+  }
+
+  .date-range-container {
+    margin-top: 25px;
+  }
+}
+
+
+/* ============================================================
+   VERY SMALL SCREENS
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+  .app-content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .date-controls,
+  .table-container,
+  .chart-container,
+  .slider-container,
+  .date-range-container {
+    width: 95%;
+  }
+
+  .chart-box {
+    height: 350px;
+  }
+
+  .slider-container {
+    margin-top: 40px;
+  }
+}
+
+/* ============================================================
+   VERY SMALL SCREENS
+   Only the table remains available
+   ============================================================ */
+
+@media (max-width: 550px) {
+
+  /* Hide date input and navigation buttons */
+  .date-controls {
+    display: none;
+  }
+
+  /* Hide the entire right-hand content */
+  .right-panel {
+    display: none;
+  }
+
+  /* Keep the table */
+  .table-container {
+    display: block;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+}
