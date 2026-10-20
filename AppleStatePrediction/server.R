@@ -1,9 +1,6 @@
 library(shiny)
 
 
-setwd("C:/Users/184826/PhenoFlex/PhenoFlex/AppleStatePrediction")
-
-
 source("R/database.R")
 source("R/temperature.R")
 source("R/phenology.R")
