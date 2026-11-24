@@ -8,6 +8,7 @@ library(ggplot2)
 
 create_temperature_plot <- function(
     current_data,
+    language = "en",
     average_data = NULL,
     percentile_data = NULL,
     current_date = NULL,
@@ -190,6 +191,7 @@ create_temperature_plot <- function(
           y = tmin,
           color = "Min Temperature"
         ),
+        linetype = "solid",
         linewidth = 0.7,
         na.rm = TRUE
       ) +
@@ -200,6 +202,7 @@ create_temperature_plot <- function(
           y = tmax,
           color = "Max Temperature"
         ),
+        linetype = "solid",
         linewidth = 0.7,
         na.rm = TRUE
       )
@@ -244,30 +247,53 @@ create_temperature_plot <- function(
     )
   
   
+  colour_values <- c(
+    "Min Temperature" = "blue",
+    "Max Temperature" = "red",
+    "Cold scenario - minimum" = "navy",
+    "Cold scenario - maximum" = "darkgreen",
+    "Warm scenario - minimum" = "orange",
+    "Warm scenario - maximum" = "firebrick"
+  )
+  
+  legend_keys <- c(
+    "temperature_min",
+    "temperature_max",
+    "cold_scenario_min",
+    "cold_scenario_max",
+    "warm_scenario_min",
+    "warm_scenario_max"
+  )
+  
+  legend_labels <- vapply(
+    legend_keys,
+    function(key) {
+      get_text(key, language)
+    },
+    FUN.VALUE = character(1)
+  )
+ 
+  
   # Labels and appearance
   p +
     labs(
-      x = "Month",
-      y = "Temperature (°C)",
-      title = "Temperature Scenarios and Forecast",
-      color = "Temperature scenario"
+      x = get_text("plot_month", language),
+      y = get_text("plot_temperature", language),
+      colour = NULL
     ) +
-    scale_color_manual(
-      values = c(
-        "Min Temperature" = "red",
-        "Max Temperature" = "blue",
-        "Cold scenario - minimum" = "firebrick",
-        "Cold scenario - maximum" = "navy",
-        "Warm scenario - minimum" = "orange",
-        "Warm scenario - maximum" = "darkgreen"
-      )
-    ) +
+    scale_colour_manual(
+      name = NULL,
+      values = colour_values,
+      breaks = names(colour_values),
+      labels = legend_labels,
+      drop = FALSE
+    )+
     scale_x_date(
       limits = c(plot_start, plot_end),
       date_breaks = "1 month",
       date_labels = "%b",
       expand = c(0, 0)
-    ) +
+    )+
     theme_minimal() +
     theme(
       plot.title = element_text(hjust = 0.5),

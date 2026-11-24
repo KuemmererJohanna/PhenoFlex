@@ -12,34 +12,137 @@ source("R/subsequentStages.R")
 
 
 
+
 server <- function(input, output, session) {
+  
+  output$app_title <- renderText({
+    get_text("app_title", current_language())
+  })
+  
+  output$data_header <- renderText({
+    get_text("data_header", current_language())
+  })
+  
+  output$temperature_header <- renderText({
+    get_text("temperature_header", current_language())
+  })
+  
+  output$percentiles_header <- renderText({
+    get_text("percentiles_header", current_language())
+  })
+  
+  output$confidence_interval_label <- renderText({
+    get_text("confidence_interval", current_language())
+  })
+  
+  output$confidence_interval_between <- renderText({
+    get_text("confidence_between", current_language())
+  })
+  
+  output$confidence_interval_and <- renderText({
+    get_text("confidence_and", current_language())
+  })
+  
+  current_language <- reactive({
+    
+    lang <- input$setting_language
+    
+    if (is.null(lang) || !lang %in% c("de", "it", "en")) {
+      lang <- "de"
+    }
+    
+    lang
+  })
+  
+  register_info_button(
+    id = "info_general",
+    key = "general",
+    input = input,
+    output = output,
+    current_language = current_language,
+    session = session
+  )
+  
+  register_info_button(
+    id = "info_settings",
+    key = "settings",
+    input = input,
+    output = output,
+    current_language = current_language,
+    session = session
+  )
+  
+  register_info_button(
+    id = "info_phenological_stages",
+    key = "phenological_stages",
+    input = input,
+    output = output,
+    current_language = current_language,
+    session = session
+  )
+  
+  register_info_button(
+    id = "info_temperature_plot",
+    key = "temperature_plot",
+    input = input,
+    output = output,
+    current_language = current_language,
+    session = session
+  )
+  
+  register_info_button(
+    id = "info_percentiles",
+    key = "percentiles",
+    input = input,
+    output = output,
+    current_language = current_language,
+    session = session
+  )
+  
+  output$date_input_label <- renderText({
+    get_text("select_date", current_language())
+  })
+  
   
   # Trigger for reloading data and redrawing plots
   data_refresh <- reactiveVal(0)
   
   observeEvent(input$btn_settings, {
     
+    lang <- current_language()
+    
     showModal(
       modalDialog(
-        title = "Settings",
+        title = get_text("settings_title", lang),
         
         selectInput(
           "setting_location",
-          "Temperature location",
-          choices = c("Laimburg", "Eyrs", "Fragsburg", "Dietenheim", "Marienberg", "Meran Gratsch", "Naturns", "Gargazon", "Brixen Vahrn", "Bozen", "Auer", "Kaltern Oberplanitzing")
+          get_text("settings_location", lang),
+          choices = c(
+            "Laimburg", "Eyrs", "Fragsburg", "Dietenheim",
+            "Marienberg", "Meran Gratsch", "Naturns", "Gargazon",
+            "Brixen Vahrn", "Bozen", "Auer",
+            "Kaltern Oberplanitzing"
+          )
         ),
         
         selectInput(
           "setting_variety",
-          "Apple variety",
-          choices = c("Golden Delicious", "Cripps Pink", "Gala Schnitzer")
+          get_text("settings_variety", lang),
+          choices = c(
+            "Golden Delicious",
+            "Cripps Pink"
+          )
         ),
         
         footer = tagList(
-          modalButton("Cancel"),
+          modalButton(
+            get_text("settings_cancel", lang)
+          ),
+          
           actionButton(
             "btn_save_settings",
-            "Save",
+            get_text("settings_save", lang),
             class = "btn-primary"
           )
         ),
@@ -105,12 +208,16 @@ server <- function(input, output, session) {
     
   })
   
+  
+  # Multilingual application title
   output$app_title <- renderText({
     
+    lang <- current_language()
+    
     paste(
-      "PHENOLOGY of",
+      get_text("app_title_prefix", lang),
       saved_variety(),
-      "in",
+      get_text("app_title_middle", lang),
       saved_location()
     )
     
@@ -222,8 +329,10 @@ server <- function(input, output, session) {
   
   
   output$output_effective_date <- renderText({
+    lang <- current_language()
+    
     paste(
-      "Prediction reference date:",
+      get_text("prediction_reference_date", lang),
       format(effective_current_date(), "%d %B %Y")
     )
   })
@@ -667,28 +776,52 @@ server <- function(input, output, session) {
     days_until <- as.integer(midpoint_dates - reference_date)
     
     # Format past and future dates as readable text.
+    lang <- current_language()
+    
     days_label <- vapply(days_until, function(days) {
+      
       if (is.na(days)) {
-        return("Not available")
+        
+        get_text("not_available", lang)
+        
       } else if (days < 0) {
-        paste(abs(days), "days ago")
+        
+        sprintf(
+          get_text("days_ago", lang),
+          abs(days)
+        )
+        
       } else if (days == 0) {
-        "Today"
+        
+        get_text("today", lang)
+        
       } else {
-        paste("in", days, "days")
+        
+        sprintf(
+          get_text("in_days", lang),
+          days
+        )
+        
       }
+      
     }, character(1))
     
-    stage_labels <- c(
-      "Knospenaufbruch",
-      "Mausohr",
-      "Grünknospen",
-      "Rotknospen",
-      "Blütenbeginn",
-      "Vollblüte",
-      "Blütenende",
-      "T-Stadium",
-      "Erntebeginn"
+    stage_keys <- c(
+      "stage_bud_break",
+      "stage_mouse_ear",
+      "stage_green_bud",
+      "stage_red_bud",
+      "stage_beginning_bloom",
+      "stage_full_bloom",
+      "stage_end_bloom",
+      "stage_t_stage",
+      "stage_harvest_start"
+    )
+    
+    stage_labels <- vapply(
+      stage_keys,
+      function(key) get_text(key, lang),
+      character(1)
     )
     
     # Explicitly format dates as calendar dates.
@@ -704,13 +837,22 @@ server <- function(input, output, session) {
       format(late_dates, "%d.%m.%Y")
     )
     
+    lang <- current_language()
+    
     result <- data.frame(
-      `Phenological stage` = stage_labels,
-      Early = early_display,
-      Late = late_display,
-      `Days until` = days_label,
+      stage_labels,
+      early_display,
+      late_display,
+      days_label,
       check.names = FALSE,
       stringsAsFactors = FALSE
+    )
+    
+    colnames(result) <- c(
+      get_text("table_phenological_stage", lang),
+      get_text("table_early", lang),
+      get_text("table_late", lang),
+      get_text("table_days_until", lang)
     )
     
     message("Subsequent stages table created successfully.")
@@ -841,6 +983,8 @@ server <- function(input, output, session) {
     create_temperature_plot(
       current_data = current_year_temperature(),
       
+      language = current_language(),
+      
       average_data = average_temperature_current_year(),
       
       percentile_data = temperature_percentiles_current_year(),
@@ -851,6 +995,8 @@ server <- function(input, output, session) {
     )
     
   })
+  
+
   
   
   # create text for conficence interval 

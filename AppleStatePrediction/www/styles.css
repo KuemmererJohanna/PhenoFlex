@@ -165,7 +165,7 @@ body {
 
 .chart-box {
   width: 100%;
-  height: 450px;
+  height: 380px;
   box-sizing: border-box;
 }
 
@@ -210,7 +210,7 @@ body {
 /* Slider stays below the diagram */
 .slider-container {
   width: 90%;
-  margin: 60px auto 0 auto;
+  margin: 30px auto 0 auto;
 }
 
 
@@ -272,7 +272,7 @@ body {
   .chart-container,
   .slider-container,
   .date-range-container {
-    width: 90%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     box-sizing: border-box;
@@ -281,17 +281,23 @@ body {
   /* Diagram keeps its own space */
   .chart-box {
     width: 100%;
-    height: 400px;
+    height: 100px;
     box-sizing: border-box;
-  }
-
-  .slider-container {
-    margin-top: 50px;
   }
 
   .date-range-container {
     margin-top: 25px;
   }
+  
+  .chart-container {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.slider-container {
+  margin-top: 0;
+  padding-top: 0;
+}
 }
 
 
@@ -348,4 +354,71 @@ body {
     margin-right: auto;
   }
 
+}
+
+
+
+
+/* Header actions */
+.header-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Language selector */
+#setting_language {
+  margin: 5px 20px 5px 20px;
+  width: auto;
+}
+
+#setting_language .shiny-options-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+}
+
+/* Individual language buttons */
+#setting_language .radio-inline {
+  margin: 0px;
+  padding: 5px 8px;
+  border: 1px solid #ced4da;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: #495057;
+  background-color: transparent;
+}
+
+/* Rounded outer edges */
+#setting_language .radio-inline:first-child {
+  border-radius: 5px 0 0 5px;
+}
+
+#setting_language .radio-inline:last-child {
+  border-radius: 0 5px 5px 0;
+}
+
+/* Remove double borders between buttons */
+#setting_language .radio-inline + .radio-inline {
+  border-left: none;
+}
+
+/* Hide radio circles */
+#setting_language .radio-inline input {
+  display: none;
+}
+
+/* Selected language */
+#setting_language .radio-inline:has(input:checked) {
+  background-color: #2583C5;
+  border-color: #2583C5;
+  color: white;
+}
+
+/* Hover */
+#setting_language .radio-inline:hover {
+  border-color: #2583C5;
 }
